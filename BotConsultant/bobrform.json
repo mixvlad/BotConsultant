@@ -1,0 +1,71 @@
+﻿{
+  "type": "object",
+  "required": [
+    "Бревно",
+    "Длина"
+  ],
+  "Templates": {
+    "NotUnderstood": {
+      "Patterns": [ "Я не понял это \"{0}\".", "Можешь объяснить \"{0}\"." ]
+    }
+  },
+  "properties": {
+    "Бревна": {
+      "Prompt": { "Patterns": [ "Какой тип {&} вам подойдет? {||}" ] },
+      "Before": [ { "Message": [ "Добро пожаловать в форму заказа бревен у бобра!" ] } ],
+      "Describe": { "Image": "https://placeholdit.imgix.net/~text?txtsize=16&txt=Бревно&w=125&h=40&txttrack=0&txtclr=000&txtfont=bold" },
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Дубовое",
+        "Сосновое",
+        "Березовое"
+      ]
+    },
+    "Длина": {
+      "Prompt": {
+        "Patterns": [ "Какая {&} нужна? {||}" ]
+      },
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Короткое",
+        "Среднее",
+        "Длинное"
+      ]
+    },
+    "Телефон": {
+      "type": [ "string", "null" ],
+      "pattern": "(\\(\\d{3}\\))?\\s*\\d{3}(-|\\s*)\\d{4}"
+    },
+    "Время": {
+      "Templates": {
+        "StatusFormat": {
+          "Patterns": [ "{&}: {:t}" ],
+          "FieldCase": "None"
+        }
+      },
+      "DateTime": true,
+      "type": [
+        "string",
+        "null"
+      ],
+      "After": [ { "Confirm": [ "Хотите чтобы я прислал {Длина} {Бревна} бревно {?в {Время}}?" ] } ]
+    },
+    "Rating": {
+      "Describe": "Оцените бобровый сервис",
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 1,
+      "maximum": 5,
+      "After": [ { "Message": [ "Спасибо за заказ бревна!" ] } ]
+    }
+  },
+  "OnCompletion": "await context.PostAsync(\"Я ищу для вас подходящее бревно. Как все будет готово, я отпишусь.\");"
+}
